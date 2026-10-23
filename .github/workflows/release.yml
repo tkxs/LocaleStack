@@ -1,0 +1,49 @@
+name: Publish desktop release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Stable version, e.g. 0.1.0'
+        required: true
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Read version
+        shell: pwsh
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $version = if ($env:INPUT_VERSION) { $env:INPUT_VERSION } else { $env:GITHUB_REF_NAME.TrimStart('v') }
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Stable semantic version required' }
+          "APP_VERSION=$version" >> $env:GITHUB_ENV
+      - name: Build self contained packages
+        shell: pwsh
+        run: ./scripts/Build.ps1 -Version $env:APP_VERSION
+      - name: Compile installer
+        shell: pwsh
+        run: |
+          $compiler = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $compiler)) { choco install innosetup --yes --no-progress }
+          & $compiler "/DAppVersion=$env:APP_VERSION" packaging/LocaleStack.iss
+          if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
+      - name: Smoke test all desktop pages
+        shell: pwsh
+        run: ./scripts/Test-Desktop.ps1
+      - name: Checksums and release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $files = Get-ChildItem artifacts/*.zip, artifacts/LocaleStack-Setup-win-x64.exe
+          $files | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name } | Set-Content artifacts/SHA256SUMS.txt -Encoding utf8
+          gh release create "v$env:APP_VERSION" @($files.FullName) artifacts/SHA256SUMS.txt --title "译栈 LocaleStack $env:APP_VERSION" --generate-notes --latest --verify-tag
+          if ($LASTEXITCODE -ne 0) { throw 'Release upload failed. If dispatching manually, create and push the version tag first.' }

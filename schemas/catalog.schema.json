@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/tkxs/LocaleStack/main/schemas/catalog.schema.json",
+  "title": "LocaleStack Official Catalog v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "repository", "games"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "repository": { "const": "tkxs/LocaleStack" },
+    "games": { "type": "array", "items": { "$ref": "#/$defs/game" } }
+  },
+  "$defs": {
+    "game": {
+      "type": "object", "additionalProperties": false, "required": ["id", "title", "status"],
+      "properties": {
+        "id": { "type": "string", "maxLength": 80, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "title": { "type": "string", "minLength": 1 },
+        "chineseTitle": { "type": ["string", "null"] },
+        "summary": { "type": "string" },
+        "engine": { "type": "string" },
+        "steamAppId": { "type": ["string", "null"], "pattern": "^[0-9]+$" },
+        "executableNames": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "status": { "enum": ["planned", "available"] },
+        "patch": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/release" }] }
+      },
+      "allOf": [
+        { "if": { "properties": { "status": { "const": "available" } } }, "then": { "required": ["patch"], "properties": { "patch": { "$ref": "#/$defs/release" } } }, "else": { "properties": { "patch": { "type": "null" } } } }
+      ]
+    },
+    "release": {
+      "type": "object", "additionalProperties": false, "required": ["version", "downloadUrl", "sha256", "bytes"],
+      "properties": {
+        "version": { "type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$" },
+        "downloadUrl": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/tkxs/LocaleStack/releases/download/[^?#]+$" },
+        "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 2147483648 },
+        "notes": { "type": "string" },
+        "variants": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

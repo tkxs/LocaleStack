@@ -1,0 +1,19 @@
+{
+  "gameId": "a-sector-darkly-demo",
+  "gameTitle": "A Sector Darkly Demo",
+  "version": "1.0.1",
+  "steamAppId": "5195950",
+  "executableNames": ["A Sector Darkly Demo.exe"],
+  "variants": [
+    {
+      "id": "steam-build26147432",
+      "label": "Steam Demo · Build 26147432",
+      "storefront": "steam",
+      "steamBuildIds": ["26147432"],
+      "originalDirectory": "F:/SteamLibrary/steamapps/common/A Sector Darkly Demo/_zh_cn_backup_build26147432",
+      "translatedDirectory": "C:/LocaleStackImport/Chinese_Patch",
+      "files": ["data.win", "data/zh_cn/display.json"],
+      "fingerprintFiles": []
+    }
+  ]
+}

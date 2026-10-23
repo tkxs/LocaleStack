@@ -1,0 +1,14 @@
+{
+  "gameId": "a-sector-darkly-demo",
+  "status": "awaiting-original-patch-files",
+  "corrections": [
+    {
+      "source": "MINE",
+      "target": "采矿",
+      "context": "小行星目标操作菜单，启动采矿光束的操作按钮",
+      "scope": "asteroid-mining-action-label-only",
+      "reason": "动词，表示采矿；武器/爆炸装置的 mine 仍保留太空雷。",
+      "applicationStatus": "pending-payload-import"
+    }
+  ]
+}

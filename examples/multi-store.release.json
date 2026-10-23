@@ -1,0 +1,29 @@
+{
+  "gameId": "example-game",
+  "gameTitle": "Example Game",
+  "version": "1.0.0",
+  "steamAppId": "123456",
+  "executableNames": ["ExampleGame.exe"],
+  "variants": [
+    {
+      "id": "steam-build100",
+      "label": "Steam · Build 100",
+      "storefront": "steam",
+      "steamBuildIds": ["100"],
+      "originalDirectory": "D:/PatchWork/steam-clean",
+      "translatedDirectory": "D:/PatchWork/steam-zh",
+      "files": ["data/text.bin", "fonts/chinese.ttf"],
+      "fingerprintFiles": ["ExampleGame.exe"]
+    },
+    {
+      "id": "standalone-1-0",
+      "label": "GOG / 独立安装 · 1.0",
+      "storefront": "standalone",
+      "steamBuildIds": [],
+      "originalDirectory": "D:/PatchWork/standalone-clean",
+      "translatedDirectory": "D:/PatchWork/standalone-zh",
+      "files": ["data/text.bin", "fonts/chinese.ttf"],
+      "fingerprintFiles": ["ExampleGame.exe"]
+    }
+  ]
+}

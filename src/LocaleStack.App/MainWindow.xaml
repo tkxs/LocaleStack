@@ -1,0 +1,101 @@
+<Window x:Class="LocaleStack.App.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="译栈 LocaleStack" Width="1280" Height="940" MinWidth="1080" MinHeight="720" Background="{StaticResource BackgroundBrush}" FontFamily="Microsoft YaHei UI, Segoe UI" WindowStartupLocation="CenterScreen">
+  <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="214"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Border Background="{StaticResource SidebarBrush}" BorderBrush="#293746" BorderThickness="0,0,1,0">
+      <Grid Margin="20,30,20,22"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="4,0,0,6">
+            <Viewbox Width="32" Height="34" Margin="0,0,12,0"><Canvas Width="32" Height="34"><Path Fill="#8CE8BD" Data="M16,1 L31,9 L16,17 L1,9Z"/><Path Stroke="#8CE8BD" StrokeThickness="3" Data="M2,17 L16,25 L30,17 M2,25 L16,33 L30,25"/></Canvas></Viewbox>
+            <TextBlock Text="译栈" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+          </StackPanel>
+          <TextBlock Text="LOCALESTACK" FontFamily="Segoe UI" FontSize="11" Foreground="#A8B8C9" Margin="49,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0,42,0,0">
+          <TextBlock Text="工作空间" Style="{StaticResource Muted}" Margin="12,0,0,14"/>
+          <Button Content="▦    游戏库" Command="{Binding LibraryCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
+          <Button Content="↓    下载与任务" Command="{Binding TasksCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
+          <Button Content="?    使用说明" Command="{Binding HelpCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
+          <Button Content="⚙    设置" Command="{Binding SettingsCommand}" HorizontalContentAlignment="Left"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3">
+          <Border Background="#1B302C" CornerRadius="6" Padding="12" Margin="0,0,0,18"><StackPanel><TextBlock Text="官方汉化源" Foreground="{StaticResource AccentBrush}" FontSize="12"/><TextBlock Text="tkxs / LocaleStack" Style="{StaticResource Muted}" FontFamily="Segoe UI" Margin="0,4,0,0"/></StackPanel></Border>
+          <Button Content="在 GitHub 上查看项目 ↗" Command="{Binding OpenRepoCommand}" Padding="6,8" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left"/>
+          <TextBlock Text="{Binding AppVersionLabel}" Style="{StaticResource Muted}" FontFamily="Segoe UI" Margin="6,12,0,0"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Column="1" Margin="32,24,32,20">
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Grid Margin="0,0,0,24"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <StackPanel><TextBlock Text="游戏，在熟悉的语言里。" FontSize="13" Foreground="{StaticResource MutedBrush}"/><TextBlock Text="{Binding PageTitle}" FontSize="27" FontWeight="SemiBold" Margin="0,6,0,0"/></StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"><Border Background="#1B302C" CornerRadius="12" Padding="12,6" Margin="0,0,12,0"><TextBlock Text="简体中文" Foreground="{StaticResource AccentBrush}" FontSize="11"/></Border><Button Content="同步目录" Command="{Binding RefreshCommand}"/></StackPanel>
+      </Grid>
+      <Grid Grid.Row="1" Visibility="{Binding IsLibrary, Converter={StaticResource BoolVisibility}}">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <Border CornerRadius="8" Background="#1A2F2D" Padding="24,20" Margin="0,0,0,24">
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <StackPanel><TextBlock Text="少一点折腾，多一点沉浸。" FontSize="21" FontWeight="SemiBold"/><TextBlock Text="发现汉化，一键安装。更新与原版备份，译栈帮你打理。" Foreground="#BDD2C7" Margin="0,10,0,0" FontSize="12"/></StackPanel>
+            <Border Grid.Column="1" BorderBrush="#527E6A" BorderThickness="1" CornerRadius="6" Padding="16,12" VerticalAlignment="Center" Margin="24,0,0,0"><StackPanel><TextBlock Text="STEAM + 独立安装" FontSize="12" Foreground="{StaticResource AccentBrush}"/><TextBlock Text="通过文件指纹核对兼容性" Foreground="#BDD2C7" FontSize="11" Margin="0,5,0,0"/></StackPanel></Border>
+          </Grid>
+        </Border>
+        <Grid Grid.Row="1"><Grid.ColumnDefinitions><ColumnDefinition Width="310"/><ColumnDefinition Width="24"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+          <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <Grid Margin="0,0,0,12"><TextBlock Text="汉化目录" FontSize="15" FontWeight="SemiBold"/><TextBlock Text="{Binding GameCountText}" HorizontalAlignment="Right" Style="{StaticResource Muted}"/></Grid>
+            <Grid Grid.Row="1" Margin="0,0,0,16"><TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" ToolTip="搜索游戏名称" AutomationProperties.Name="搜索游戏名称"/><TextBlock Text="搜索游戏名称…" Foreground="{StaticResource MutedBrush}" Margin="13,0" VerticalAlignment="Center" FontSize="12" IsHitTestVisible="False"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Search}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></Grid>
+            <ListBox Grid.Row="2" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame}" AutomationProperties.Name="汉化游戏目录">
+              <ListBox.ItemTemplate><DataTemplate><StackPanel>
+                <Border Height="142" Background="{StaticResource SpaceArtwork}" CornerRadius="8,8,0,0"><Grid Margin="16"><Border Background="#D9101C22" Padding="9,5" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Left"><TextBlock Text="{Binding Availability}" Foreground="{StaticResource AccentBrush}" FontSize="11"/></Border><TextBlock Text="LOCALESTACK / LOCALIZATION" VerticalAlignment="Bottom" FontSize="10" FontFamily="Consolas" Foreground="#D2E6DD"/></Grid></Border>
+                <StackPanel Margin="16"><TextBlock Text="{Binding Entry.Title}" FontFamily="Segoe UI" FontSize="17" FontWeight="SemiBold"/><TextBlock Text="{Binding SourceLabel}" Style="{StaticResource Muted}" Margin="0,7,0,12"/><Grid><TextBlock Text="{Binding VersionLabel}" Foreground="{StaticResource AccentBrush}" FontSize="11"/><TextBlock Text="查看详情 →" HorizontalAlignment="Right" FontSize="11" Foreground="#C6D4E1"/></Grid></StackPanel>
+              </StackPanel></DataTemplate></ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Grid.Row="3" Text="找不到游戏？可导入标准离线补丁包。" Style="{StaticResource Muted}" Margin="0,8,0,0"/>
+          </Grid>
+          <Grid Grid.Column="2"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="0,0,8,0">
+              <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel>
+                <TextBlock Text="{Binding SelectedGame.Entry.Title, FallbackValue=选择一个游戏}" FontSize="22" FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding SelectedGame.Entry.Summary}" Style="{StaticResource Muted}" Margin="0,10,0,18"/>
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="已安装汉化" Style="{StaticResource Muted}"/><TextBlock Text="{Binding InstalledLabel}" FontSize="15" Margin="0,5,0,0"/></StackPanel><StackPanel Grid.Column="1"><TextBlock Text="官方最新版本" Style="{StaticResource Muted}"/><TextBlock Text="{Binding SelectedGame.VersionLabel}" Foreground="{StaticResource AccentBrush}" FontSize="15" Margin="0,5,0,0"/></StackPanel></Grid>
+              </StackPanel></Border>
+              <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel>
+                <TextBlock Text="游戏安装目录" Style="{StaticResource SectionTitle}"/>
+                <TextBox Text="{Binding GameDirectory, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="游戏安装目录" ToolTip="选择包含游戏文件的根目录" Margin="0,0,0,12"/>
+                <WrapPanel><Button Content="自动查找 Steam" Command="{Binding DetectCommand}" Margin="0,0,8,8"/><Button Content="手动选择目录" Command="{Binding BrowseCommand}" Margin="0,0,0,8"/></WrapPanel>
+                <TextBlock Text="{Binding LocationLabel}" Style="{StaticResource Muted}" Margin="0,3,0,0"/>
+                <Border Background="#10251E" CornerRadius="5" Padding="12" Margin="0,16,0,0"><TextBlock Text="安装前会核对游戏版本并备份原版文件。游戏更新或文件不匹配时，会停止覆盖。" Foreground="#BEDACA" FontSize="11" LineHeight="20"/></Border>
+              </StackPanel></Border>
+            </StackPanel>
+          </ScrollViewer>
+              <Border Grid.Row="1" Style="{StaticResource Panel}" Margin="0,8,8,0"><StackPanel>
+                <TextBlock Text="汉化与更新" Style="{StaticResource SectionTitle}"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="72" Margin="0,0,0,16"><TextBlock Text="{Binding ReleaseNotes}" Style="{StaticResource Muted}"/></ScrollViewer>
+                <Button Content="{Binding InstallLabel}" Command="{Binding InstallCommand}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Stretch" Padding="18,12"/>
+                <WrapPanel Margin="0,12,0,0"><Button Content="导入离线补丁" Command="{Binding ImportCommand}" Margin="0,0,8,8"/><Button Content="恢复原版" Command="{Binding RestoreCommand}" Margin="0,0,0,8"/></WrapPanel>
+              </StackPanel></Border>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid Grid.Row="1" Visibility="{Binding IsTasks, Converter={StaticResource BoolVisibility}}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <TextBlock Text="下载、兼容检查和安装结果都会记录在这里。关闭译栈后，仍可在日志文件中查看。" Style="{StaticResource Muted}" Margin="0,0,0,20"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Logs}" AutomationProperties.Name="任务记录"><ListBox.ItemTemplate><DataTemplate><Grid Margin="16,12"><Grid.ColumnDefinitions><ColumnDefinition Width="84"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><TextBlock Text="{Binding Time}" FontFamily="Consolas" Foreground="#A8B8C9" FontSize="12"/><TextBlock Grid.Column="1" Text="{Binding Message}" FontSize="12" LineHeight="22"/></Grid></DataTemplate></ListBox.ItemTemplate></ListBox>
+      </Grid>
+      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsHelp, Converter={StaticResource BoolVisibility}}"><StackPanel>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel><TextBlock Text="01   选择游戏与安装目录" Style="{StaticResource SectionTitle}"/><TextBlock Text="Steam 游戏可自动查找多个游戏库；没有安装 Steam、使用 GOG / Epic 或独立安装包时，请手动选择包含游戏文件的目录。补丁是否可用，由维护者提供的来源规则与文件指纹共同决定。" Style="{StaticResource Muted}"/></StackPanel></Border>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel><TextBlock Text="02   安装，或导入离线补丁" Style="{StaticResource SectionTitle}"/><TextBlock Text="有可用版本时点击下载安装。也可以导入维护者提供的 .lspatch 文件。译栈会校验下载与包内文件，匹配兼容版本，再备份、安装。请先退出游戏，安装过程中保持游戏关闭。" Style="{StaticResource Muted}"/></StackPanel></Border>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel><TextBlock Text="03   更新与恢复原版" Style="{StaticResource SectionTitle}"/><TextBlock Text="启动时可自动检查目录更新，新汉化发布后由你点击安装。游戏平台更新游戏前，建议先恢复原版。如果文件已被更新或被其他补丁修改，译栈会停止操作，以免覆盖未知内容。原版备份保存在游戏目录的 .localestack 中，请保留此文件夹。" Style="{StaticResource Muted}"/></StackPanel></Border>
+        <Border Style="{StaticResource Panel}"><StackPanel><TextBlock Text="维护自己的汉化" Style="{StaticResource SectionTitle}"/><TextBlock Text="补丁采用公开的 manifest.json + payload 标准，不依赖 Steam，不包含自动执行脚本。CLI 可从原版和汉化目录生成补丁，并为 Steam、商店版或独立版本提供不同变体。上传 GitHub Release 后更新目录即可分发。" Style="{StaticResource Muted}"/><Button Content="打开补丁规范与维护文档 ↗" Command="{Binding OpenDocsCommand}" HorizontalAlignment="Left" Margin="0,18,0,0"/></StackPanel></Border>
+      </StackPanel></ScrollViewer>
+      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsSettings, Converter={StaticResource BoolVisibility}}"><StackPanel>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel><TextBlock Text="更新偏好" Style="{StaticResource SectionTitle}"/><CheckBox Content="启动时检查游戏目录和汉化版本更新" IsChecked="{Binding AutoCheck}"/><TextBlock Text="检查更新后提示你安装；下载和覆盖游戏文件都需要由你点击。" Style="{StaticResource Muted}" Margin="0,4,0,14"/><TextBlock Text="{Binding SourceStatus}" Foreground="{StaticResource AccentBrush}" FontSize="12"/></StackPanel></Border>
+        <Border Style="{StaticResource Panel}" Margin="0,0,0,16"><StackPanel><TextBlock Text="程序更新" Style="{StaticResource SectionTitle}"/><TextBlock Text="{Binding AppUpdateLabel}" Style="{StaticResource Muted}" Margin="0,0,0,14"/><WrapPanel><Button Content="检查译栈更新" Command="{Binding CheckAppCommand}" Margin="0,0,8,8"/><Button Content="下载安装新版译栈" Command="{Binding UpdateAppCommand}" Margin="0,0,0,8"/></WrapPanel></StackPanel></Border>
+        <Border Style="{StaticResource Panel}"><StackPanel><TextBlock Text="本地数据" Style="{StaticResource SectionTitle}"/><TextBlock Text="{Binding DataDirectory}" Style="{StaticResource Muted}" Margin="0,0,0,14"/><WrapPanel><Button Content="打开数据与日志" Command="{Binding OpenDataCommand}" Margin="0,0,8,8"/><Button Content="清理下载缓存" Command="{Binding ClearCacheCommand}" Margin="0,0,0,8"/></WrapPanel><TextBlock Text="清理缓存不会删除游戏目录里的原版备份。" Style="{StaticResource Muted}" Margin="0,8,0,0"/></StackPanel></Border>
+      </StackPanel></ScrollViewer>
+      <Border Grid.Row="2" BorderBrush="#344355" BorderThickness="0,1,0,0" Margin="0,22,0,0" Padding="0,14,0,0"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="180"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding StatusMessage}" FontSize="11" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+        <ProgressBar Grid.Column="1" Minimum="0" Maximum="1" Value="{Binding ProgressFraction, Mode=OneWay}" IsIndeterminate="{Binding IsIndeterminate}" Visibility="{Binding IsBusy, Converter={StaticResource BoolVisibility}}" Height="5" Foreground="{StaticResource AccentBrush}" Background="#344355" BorderThickness="0" Margin="16,0"/>
+        <Button Grid.Column="2" Content="取消" Command="{Binding CancelCommand}" Visibility="{Binding IsBusy, Converter={StaticResource BoolVisibility}}" Padding="12,5" FontSize="11"/>
+      </Grid></Border>
+    </Grid>
+  </Grid>
+</Window>

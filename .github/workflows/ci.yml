@@ -1,0 +1,25 @@
+name: Build and verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build LocaleStack.sln -c Release
+      - run: dotnet run --project tests/LocaleStack.Tests -c Release --no-build
+      - run: dotnet run --project src/LocaleStack.Cli -c Release --no-build -- catalog-validate --catalog catalog/catalog.json
+      - name: Maintainer workflow roundtrip
+        shell: pwsh
+        run: ./scripts/Test-PackageWorkflow.ps1
+      - name: Validate JSON Schema documents
+        run: |
+          python -m pip install jsonschema==4.26.0
+          python scripts/Validate-Schemas.py

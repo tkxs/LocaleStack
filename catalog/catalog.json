@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "repository": "tkxs/LocaleStack",
+  "games": [
+    {
+      "id": "a-sector-darkly-demo",
+      "title": "A Sector Darkly Demo",
+      "chineseTitle": null,
+      "summary": "在未知星域指挥舰船，探索、贸易与生存。已有汉化成果等待从原电脑导入，上传后即可通过译栈分发。",
+      "engine": "GameMaker",
+      "steamAppId": "5195950",
+      "executableNames": ["A Sector Darkly Demo.exe"],
+      "status": "planned",
+      "patch": null
+    }
+  ]
+}

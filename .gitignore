@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+.tools/
+artifacts/
+work/
+.vs/
+*.user
+*.lspatch
+*.zip
+*.exe
+*.pdb
+!assets/*.ico

@@ -1,0 +1,7 @@
+{
+  "json.schemas": [
+    { "fileMatch": ["/catalog/catalog.json"], "url": "./schemas/catalog.schema.json" },
+    { "fileMatch": ["**/manifest.json"], "url": "./schemas/package.schema.json" },
+    { "fileMatch": ["/examples/*.release.json"], "url": "./schemas/capture.schema.json" }
+  ]
+}

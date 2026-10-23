@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/tkxs/LocaleStack/main/schemas/capture.schema.json",
+  "title": "LocaleStack Maintainer Capture Config v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["gameId", "gameTitle", "version", "variants"],
+  "properties": {
+    "gameId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "gameTitle": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$" },
+    "steamAppId": { "type": ["string", "null"], "pattern": "^[0-9]+$" },
+    "executableNames": { "type": "array", "items": { "type": "string" } },
+    "variants": { "type": "array", "minItems": 1, "maxItems": 32, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "originalDirectory", "translatedDirectory", "files"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "label": { "type": "string", "minLength": 1 },
+        "originalDirectory": { "type": "string", "minLength": 1 },
+        "translatedDirectory": { "type": "string", "minLength": 1 },
+        "storefront": { "enum": ["any", "steam", "standalone"] },
+        "steamBuildIds": { "type": "array", "items": { "type": "string", "pattern": "^[0-9]+$" } },
+        "files": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+        "fingerprintFiles": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    } }
+  }
+}
