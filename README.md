@@ -10,9 +10,9 @@
 
 - `LocaleStack-Setup-win-x64.exe`：安装版，安装到当前用户目录，无需预装 .NET。
 - `LocaleStack-Portable-win-x64.zip`：解压运行 `LocaleStack.exe`。
-- `LocaleStack-Maintainer-win-x64.zip`：维护者命令行工具。
+- `LocaleStack-Maintainer-win-x64.zip`：图形维护者工作台，解压运行 `LocaleStack.Maintainer.exe`，另附 CLI。
 
-系统要求：Windows 10/11 64 位。首版为 `0.1.0`，支持简体中文汉化包。
+系统要求：Windows 10/11 64 位。当前版本为 `0.2.0`，支持简体中文汉化包。
 
 1. 选择游戏，自动查找 Steam 安装位置，或手动选择游戏根目录。
 2. 关闭游戏，点击下载安装；也可以导入 `.lspatch` 离线补丁。
@@ -30,6 +30,7 @@
 - 安装失败回滚；下次操作恢复上次中断的事务；未知文件修改会阻止覆盖。
 - GitHub 官方目录同步、补丁更新检查、离线导入、程序新版安装包下载与校验。
 - 维护者 `capture / pack / verify / inspect / catalog-add` 工具。
+- 图形维护者工作台：选原版/汉化目录、预览差异、多兼容版本、一键打包上传并自动更新游戏目录。
 - 安装版、便携版和 GitHub Actions 构建发布工作流。
 
 **通用性指的是安装协议与管理流程。** 不同游戏的文本提取、翻译、字体和版本适配仍由各游戏维护者完成。v1 安装完整文件替换型补丁；支持替换游戏资源、字体和已制作的加载器文件，不执行补丁内脚本，不支持自动翻译或任意安装钩子。
@@ -51,6 +52,8 @@
 ## 维护一个补丁
 
 完整操作见 [维护者指南](docs/maintainers.md)，正式协议见 [补丁格式 v1](docs/patch-format-v1.md)。
+
+推荐使用 [图形工作台](docs/maintainer-gui.md)：选择两个目录，填写版本，连接 GitHub 后点击发布，全程无需命令行。完整客户端侧栏也有“维护者工作台”入口。
 
 ```powershell
 # 使用 .NET 10 SDK，或下载维护者便携版直接运行 LocaleStack.Cli.exe
@@ -75,10 +78,10 @@ dotnet run --project src/LocaleStack.App
 安装程序使用 [Inno Setup 6](https://jrsoftware.org/isinfo.php)：
 
 ```powershell
-ISCC /DAppVersion=0.1.0 packaging/LocaleStack.iss
+ISCC /DAppVersion=0.2.0 packaging/LocaleStack.iss
 ```
 
-发布客户端时推送 `v0.1.0` 这类稳定版本标签，Actions 会构建安装版、便携版、维护工具及校验文件。补丁 Release 使用 `patch-游戏ID-v版本号` 形式，与客户端 `v*` 标签区分。
+发布客户端时推送 `v0.2.0` 这类稳定版本标签，Actions 会构建安装版、便携版、图形维护工具及校验文件。补丁 Release 使用 `patch-游戏ID-v版本号` 形式，与客户端 `v*` 标签区分。
 
 目录结构：`src/` 客户端与核心，`catalog/` 官方游戏目录，`schemas/` JSON Schema，`games/` 游戏接入记录，`examples/` 多来源配置示例，`docs/` 协议与维护文档。
 

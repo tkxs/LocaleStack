@@ -16,6 +16,8 @@
           <Button Content="↓    下载与任务" Command="{Binding TasksCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
           <Button Content="?    使用说明" Command="{Binding HelpCommand}" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
           <Button Content="⚙    设置" Command="{Binding SettingsCommand}" HorizontalContentAlignment="Left"/>
+          <Border Height="1" Background="#344355" Margin="8,22,8,14"/>
+          <Button Content="↥    维护者工作台" Command="{Binding MaintainerCommand}" HorizontalContentAlignment="Left"/>
         </StackPanel>
         <StackPanel Grid.Row="3">
           <Border Background="#1B302C" CornerRadius="6" Padding="12" Margin="0,0,0,18"><StackPanel><TextBlock Text="官方汉化源" Foreground="{StaticResource AccentBrush}" FontSize="12"/><TextBlock Text="tkxs / LocaleStack" Style="{StaticResource Muted}" FontFamily="Segoe UI" Margin="0,4,0,0"/></StackPanel></Border>

@@ -7,7 +7,9 @@ public partial class App : Application
     private Mutex? instanceMutex;
     protected override void OnStartup(StartupEventArgs e)
     {
-        instanceMutex = new Mutex(false, "LocaleStack.Desktop", out var created);
+        var maintainer = e.Args.Contains("--maintainer") || string.Equals(Path.GetFileNameWithoutExtension(Environment.ProcessPath), "LocaleStack.Maintainer", StringComparison.OrdinalIgnoreCase);
+        if (maintainer) StartupUri = new Uri("MaintainerWindow.xaml", UriKind.Relative);
+        instanceMutex = new Mutex(false, maintainer ? "LocaleStack.Maintainer" : "LocaleStack.Desktop", out var created);
         if (!created)
         {
             MessageBox.Show("译栈已经在运行。请在已打开的窗口中继续操作。", "译栈", MessageBoxButton.OK, MessageBoxImage.Information);

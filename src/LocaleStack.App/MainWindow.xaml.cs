@@ -50,7 +50,7 @@ public partial class MainWindow : Window
     }
     private void OnClosing(object? sender, CancelEventArgs e)
     {
-        if (!model.IsBusy) return;
+        if (!model.IsBusy && !model.MaintainerBusy) return;
         e.Cancel = true;
         MessageBox.Show("操作尚未结束。可先点击取消，待安装完成或回滚后再关闭译栈。", "译栈", MessageBoxButton.OK, MessageBoxImage.Information);
     }

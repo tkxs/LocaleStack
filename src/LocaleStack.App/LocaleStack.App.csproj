@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
     <AssemblyName>LocaleStack</AssemblyName>
+    <AssemblyName Condition="'$(MaintainerEdition)' == 'true'">LocaleStack.Maintainer</AssemblyName>
     <Product>译栈 LocaleStack</Product>
     <Description>游戏汉化安装与更新管理器</Description>
     <ApplicationManifest>app.manifest</ApplicationManifest>

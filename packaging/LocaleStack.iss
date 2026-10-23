@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.1.0"
+  #define AppVersion "0.2.0"
 #endif
 [Setup]
 AppId={{7D4B4EBD-1C31-4D62-A046-3C30E6FD92ED}
@@ -38,6 +38,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Icons]
 Name: "{group}\译栈 LocaleStack"; Filename: "{app}\LocaleStack.exe"
+Name: "{group}\译栈 维护者工作台"; Filename: "{app}\LocaleStack.exe"; Parameters: "--maintainer"
 Name: "{autodesktop}\译栈 LocaleStack"; Filename: "{app}\LocaleStack.exe"; Tasks: desktopicon
 
 [Run]

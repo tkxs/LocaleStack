@@ -6,6 +6,10 @@
 
 `LocaleStack.Cli` 负责维护者工作流，读取原版与汉化文件生成标准包；不执行包内脚本，不使用游戏平台账号。发布目录只是元数据，补丁文件放 GitHub Releases。
 
+v0.2.0 的 `MaintainerViewModel` / `MaintainerWindow` 提供同一工作流的图形入口。GUI 与 CLI 共用 Core 的 `PatchAuthoring`；`DirectoryComparer` 生成扫描快照，构建前后复查输入文件。独立维护者 EXE 和普通客户端均使用同一 WPF 工程，通过启动入口打开工作台。
+
+`GitHubPublisher` 使用 GitHub REST API，按草稿 → 附件校验 → 公开 Release → Contents API 更新目录的顺序执行，目录写入带 blob SHA，并在冲突后重新读取合并。发布重试以本地不可变包及远程附件哈希为依据，不覆盖同版本的不同内容。访问令牌仅随固定 GitHub API 请求发送，不跟随 API 重定向；Windows 凭据存储由 App 中的 `WindowsCredentialStore` 承担。
+
 `LocaleStack.Tests` 是无需测试框架依赖的隔离回归运行器。测试目录使用临时路径，每项测试独立构造文件与包，并验证实际文件内容或状态。网络测试注入 HTTP handler，不访问外网；Steam 测试构造真实 VDF / ACF 布局。
 
 ## 更改约定
@@ -18,4 +22,4 @@
 
 ## 后续可扩展
 
-需要另行设计与验证的功能：签名目录、多源订阅、Linux / Steam Deck、二进制差分补丁、依赖组件、游戏运行中托盘行为、可视化维护后台。目前接口没有把这些功能假装成已支持。
+需要另行设计与验证的功能：签名目录、多源订阅、Linux / Steam Deck、二进制差分补丁、依赖组件、游戏运行中托盘行为、多维护者协作后台。目前接口没有把这些功能假装成已支持。

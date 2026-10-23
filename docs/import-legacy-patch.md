@@ -2,6 +2,14 @@
 
 原任务记录显示已制作 `Chinese_Patch`、英文备份与构建脚本。当前电脑没有这些文件，译栈仅预留游戏目录和修订记录。请在原电脑完成以下步骤。
 
+## 推荐：在图形界面直接导入
+
+下载维护者 ZIP 并打开 `LocaleStack.Maintainer.exe`，填写游戏 ID `a-sector-darkly-demo`、名称 `A Sector Darkly Demo`、汉化版本和更新说明。Steam App ID 填 `5195950`。
+
+原版目录选择对应构建的英文备份，汉化目录选择完整的 `Chinese_Patch`；来源选 Steam，Build ID 按实际原版构建填写。点击扫描检查文件，再连接 GitHub 并发布。工作台会自动列出全部变化文件、计算指纹、打包、上传和更新目录，无需运行下文命令。
+
+连接方法及多版本设置见 [图形工作台指南](maintainer-gui.md)。以下命令行步骤仍可用于高级维护。
+
 ## 准备资料
 
 - 完整的 `outputs/Chinese_Patch`，不能只取 `data.win`；还包含 JSON/INI 文本和运行时显示词典。

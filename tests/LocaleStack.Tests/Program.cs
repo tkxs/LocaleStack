@@ -182,6 +182,7 @@ AsyncTest("catalog validates planned versus available state", async () =>
     using var source = new GitHubSource(new FakeHandler(_ => new(HttpStatusCode.OK) { Content = new StringContent("{\"schemaVersion\":1,\"repository\":\"tkxs/LocaleStack\",\"games\":[{\"id\":\"game\",\"title\":\"Game\",\"status\":\"available\",\"patch\":null}]}") })); await ThrowsAsync(() => source.FetchCatalogAsync());
 });
 
+tests.AddRange(MaintainerTests.Cases);
 var failed = 0;
 foreach (var (name, test) in tests)
 {

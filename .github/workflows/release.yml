@@ -37,7 +37,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
       - name: Smoke test all desktop pages
         shell: pwsh
-        run: ./scripts/Test-Desktop.ps1
+        run: ./scripts/Test-Desktop.ps1 -MaintainerExecutable artifacts/maintainer/LocaleStack.Maintainer.exe
       - name: Checksums and release
         shell: pwsh
         env:

@@ -64,6 +64,8 @@ public sealed class MainViewModel : Observable, IDisposable
     private double progressFraction;
     private bool isIndeterminate;
     private InstallState? installed;
+    private MaintainerWindow? maintainerWindow;
+    public bool MaintainerBusy => maintainerWindow?.IsOperationInProgress == true;
     public string DataDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LocaleStack");
     public string AppVersionLabel => $"v{AppInfo.Version}  ·  Windows x64";
     private string CacheDirectory => Path.Combine(DataDirectory, "cache");
@@ -130,6 +132,7 @@ public sealed class MainViewModel : Observable, IDisposable
     public AsyncCommand ClearCacheCommand { get; }
     public AsyncCommand CheckAppCommand { get; }
     public AsyncCommand UpdateAppCommand { get; }
+    public AsyncCommand MaintainerCommand { get; }
 
     public MainViewModel()
     {
@@ -142,6 +145,17 @@ public sealed class MainViewModel : Observable, IDisposable
         { var command = new AsyncCommand(action, allowed); commands.Add(command); return command; }
         AsyncCommand Navigation(string target) => Command(() => { page = target; foreach (var property in new[] { nameof(PageTitle), nameof(IsLibrary), nameof(IsTasks), nameof(IsHelp), nameof(IsSettings) }) Changed(property); return Task.CompletedTask; });
         LibraryCommand = Navigation("library"); TasksCommand = Navigation("tasks"); HelpCommand = Navigation("help"); SettingsCommand = Navigation("settings");
+        MaintainerCommand = Command(() =>
+        {
+            if (maintainerWindow is null)
+            {
+                maintainerWindow = new MaintainerWindow(SelectedGame?.Entry) { Owner = Application.Current.MainWindow };
+                maintainerWindow.Closed += (_, _) => maintainerWindow = null;
+                maintainerWindow.Show();
+            }
+            else { if (maintainerWindow.WindowState == WindowState.Minimized) maintainerWindow.WindowState = WindowState.Normal; maintainerWindow.Activate(); }
+            return Task.CompletedTask;
+        }, () => !IsBusy);
         RefreshCommand = Command(() => RunAsync(RefreshAsync), () => !IsBusy);
         DetectCommand = Command(() => RunAsync(DetectAsync), () => !IsBusy && SelectedGame?.Entry.SteamAppId is not null);
         BrowseCommand = Command(() => { Browse(); return Task.CompletedTask; }, () => !IsBusy && SelectedGame is not null);
